@@ -19,16 +19,16 @@ if [[ -d /lib/modules/$KERNEL/extra ]]; then
       echo " removing hid-viewsonic.ko"
       rm /lib/modules/$KERNEL/extra/hid-viewsonic.ko
     fi
-    echo "removing /lib/modules/$KERNEL/extra if empty"
+    echo " removing /lib/modules/$KERNEL/extra.."
     rmdir /lib/modules/$KERNEL/extra
     depmod -a
 elif [[ ! -d /lib/modules/$KERNEL/extra ]]; then
     echo "no kernel modules to remove"
 else 
-    echo "Did you run 'dpkms remove --all digimend/9' before removepkg?"
-    echo "If not, please reinstall pkg; ..."
-    echo "do 'dpkms remove --all digimend/9' "
-    echo " and then 'removepkg "
+    echo "Something did not go well"
+    echo "Please reinstall pkg; then run:"
+    echo "'dpkms remove --all digimend/9' "
+    echo " and then removepkg again"
     echo "see README"
 fi
 
@@ -36,10 +36,12 @@ fi
 if [[ -d /var/lib/dkms/digimend ]]; then
       echo "removing digimend build-tree from /var/lib/dkms/..."
       rm -rf /var/lib/dkms/digimend/9
-      if [[ -L /var/lib/dkms/digimend/kernel*-x86_64 ]]; then
-        rm -f /var/lib/dkms/digimend/kernel*-x86_64
+      DANGLY=$(find /var/lib/dkms/digimend -xtype l)
+      if [[ -L $DANGLY ]] ; then
+        echo " removing dead symlink"
+        rm -f $DANGLY
       fi
-      echo "removing /var/lib/dkms/digimend if empty"
+      echo " removing /var/lib/dkms/digimend.."
       rmdir /var/lib/dkms/digimend
 fi
 

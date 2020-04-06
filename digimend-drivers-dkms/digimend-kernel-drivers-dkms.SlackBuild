@@ -77,16 +77,10 @@ cp -a \
  usbhid/*.h \
  $PKG/usr/src/$MODNAM-$VERSION/usbhid/
  
-#mkdir -p $PKG/etc/udev/rules.d/
-#cp udev.rules $PKG/etc/udev/rules.d/90-digimend.rules
-
+ 
 mkdir -p $PKG/lib/udev/rules.d/
 cp hid-rebind $PKG/lib/udev/
 cp udev.rules $PKG/lib/udev/rules.d/90-digimend.rules
-
-#mkdir -p $PKG/etc/X11/xorg.conf.d/
-#cp xorg.conf $PKG/etc/X11/xorg.conf.d/50-digimend.conf
-#cp $CWD/50-huion.conf $PKG/etc/X11/xorg.conf.d/
  
 mkdir -p $PKG/usr/share/X11/xorg.conf.d/
 cp $CWD/50-huion.conf $PKG/usr/share/X11/xorg.conf.d/
