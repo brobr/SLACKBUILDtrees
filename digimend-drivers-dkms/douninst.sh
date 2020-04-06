@@ -27,6 +27,7 @@ if [[ -d /var/lib/dkms/digimend ]]; then
       rm -rf /var/lib/dkms/digimend/9
       if [[ -L /var/lib/dkms/digimend/kernel*-x86_64 ]]; then
         rm -f /var/lib/dkms/digimend/kernel*-x86_64
+      fi
       rmdir /var/lib/dkms/digimend
 fi
 
