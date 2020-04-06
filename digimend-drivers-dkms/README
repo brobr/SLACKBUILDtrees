@@ -1,0 +1,42 @@
+This is a collection of graphics tablet drivers for the Linux kernel, produced
+and maintained by the DIGImend project. We maintain this package to provide
+newer drivers for older kernel versions which don't have them, and to allow
+users to test new drivers before we contribute them to the mainline kernel.
+
+On SLackbuilds.org a digimend-kernel-drivers package is available that requires
+rebuilding (and installation of the drivers) after each kernel-upgrade.
+
+This package uses dkms (see e.g. https://slackbuilds.org/repository/14.2/development/dkms/)
+for installation. 
+
+Dkms installs/uninstalls registered kernel drivers automatically after upgrading the kernel
+(handy when on current) (see digimend/README)
+
+
+
+In case of removing/upgrading the package, best to run (as root):
+
+'dkms remove digimend/9' 
+
+(or when the driver has to be removed from other
+kernels than the running one): 
+
+'dkms remove --all digimend/9'
+
+before running 'removepkg'. (see man dkms)
+
+When the dkms-remove step is omitted, and the driver-package is removed with
+'removepkg', the dounist.sh aims to remove the bits installed by dkms. 
+
+This script is still highly experimental.
+Please if you have suggestions to imrpove it please let me know.
+
+See the list of supported_tablets on the project website,
+https://digimend.github.io
+
+download from
+https://github.com/DIGImend/digimend-kernel-drivers
+
+see also:
+https://slackblogs.blogspot.com/2020/04/configuring-huion-h430p-on-slackware.html
+https://www.linuxquestions.org/questions/slackware-14/please-recommend-a-handwriting-pad-4175635693/

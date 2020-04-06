@@ -1,0 +1,10 @@
+on SlackBuilds.org:
+asttokens
+mccabe
+pyflakes
+pylint
+isort
+astroid
+
+### make sure to set SlackBuild to
+python3 setup.py install 

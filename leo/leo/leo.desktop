@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Leonine Editor with Outlines (leo)
+Name[he]= Leo
+Comment=Developer's Text Editor
+Exec=leo
+Icon=leo
+Terminal=false
+Type=Application
+MimeType=application/x-leo-outline;
+Categories=Development;TextEditor

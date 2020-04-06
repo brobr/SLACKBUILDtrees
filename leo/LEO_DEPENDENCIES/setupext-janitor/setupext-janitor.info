@@ -1,0 +1,9 @@
+PRGNAM="setupext-janitor"
+VERSION="1.1.1"
+HOMEPAGE="https://github.com/dave-shawley/setupext-janitor
+DOWNLOAD="https://pypi.python.org/packages/source/s/setupext-janitor/setupext-janitor-1.1.1.tar.gz"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64="9eda4c16c4a3d9e11966432ede7fdc9b"
+REQUIRES=""
+MAINTAINER="Rob van Nues"
+EMAIL="sborg63@disroot.org"

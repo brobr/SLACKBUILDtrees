@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+            |-----handy-ruler------------------------------------------------------|
+dialite: dialite 
+dialite:
+dialite: dialite Dialite is a lightweight Python package to show dialogs. It 
+dialite: provides a handful of functions, each a verb, that can be used to inform(),
+dialite: warn() or fail() the user, or to ask_ok(), ask_retry() or ask_yesno().
+dialite: Dialite is pure Python, has no dependencies, and is written to work on 
+dialite: Python 3 and Python 2.7.
+dialite: 
+dialite:
+dialite:
+dialite:

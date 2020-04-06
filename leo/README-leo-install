@@ -1,0 +1,13 @@
+This folder contains my slackbuilds to get a working installation of leo
+on Slackware current. All packages will be built for python3.
+
+These packages are used (and thus tested) on slackware64-current, mainly
+as an outliner and organizer of notes; so most aspects of the program are
+not used and if you find a bug in that respect please let me know or
+check https://github.com/leo-editor/leo-editor/issues.
+
+There is no guarantuee this will work on Slackware-14.2 or older versions.
+
+See the leo-egginfo-requires.txt (copied from leo.egg-info/requires.txt) 
+for the version of PyQT5 needed, which used to be a bottle-neck.
+(The leo-people are evrything but conservative with their development)

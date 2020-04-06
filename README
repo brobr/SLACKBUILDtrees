@@ -1,0 +1,8 @@
+The slackware build scripts in this repository were created for personal use.
+These scripts have not been deposited on Slackbuilfs.org because, say in the
+case of leo, this package is already present/maintained.
+
+Note that the packages presented here are maintained to run on - at the moment- 
+slackware64-current.
+
+Any constructive feedback will be welcomed.
