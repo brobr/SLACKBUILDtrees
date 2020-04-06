@@ -29,7 +29,7 @@ When the dkms-remove step is omitted, and the driver-package is removed with
 'removepkg', the dounist.sh aims to remove the bits installed by dkms. 
 
 This script is still highly experimental.
-Please if you have suggestions to imrpove it please let me know.
+Please if you have suggestions to improve it please let me know.
 
 See the list of supported_tablets on the project website,
 https://digimend.github.io
