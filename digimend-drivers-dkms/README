@@ -34,10 +34,10 @@ all of its actions. The default setting of this Slackbuild is for these reasons 
 the steps done by pkgtools.
 
 It is very easy to switch between build modes by editing the SlackBuild. So one can test first 
-and then decide on how to use it. For that, do check the Slackbuild, doinst.sh and douninst.sh. 
+and then decide how to use it. For that, do check the Slackbuild, doinst.sh and douninst.sh. 
 
 This script is still experimental. Please if you have suggestions to improve it, let me know.
-(sborg@disroot.org)
+(sborg63@disroot.org)
 
 see also:
 https://slackblogs.blogspot.com/2020/04/configuring-huion-h430p-on-slackware.html
