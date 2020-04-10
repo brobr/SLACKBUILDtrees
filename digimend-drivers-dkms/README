@@ -18,24 +18,25 @@ This script makes it possible to assemble a package with the dkms-built modules 
 The way dkms operates can thus be checked in advance, before installing the drivers. 
 
 As dkms automatically follows kernel-upgrades, the task of keeping kernel-modules up to date 
-is taken out of hand of the administator. This can be handy (like when on current the kernel
-is very frequently upgraded, or when has wants to test a kernel module) and this can have 
+is taken out of hand of the administator. This can be handy (when, like on current, the kernel
+is very frequently upgraded, or when wants to test a kernel module) and this can have 
 unexpected effects. For example, these upgrades are not tracked in the package description 
 used by pkgtools, which might lead to kernel-modules not being removed from the running kernel 
 when the driver-package is uninstalled. In order to prevent this, one should not forget to run 
-BEFORE removepkg the command 'dkms remove digimend/$VERSION --all'. This removes DKMS-controlled 
+BEFORE removepkg the command 'dkms remove digimend/$VERSION --all'. This uninstalls DKMS-controlled 
 digimend-$VERSION driver modules from all kernels. A particular kernel version can also be 
 specified instead of '--all' (see man dkms).
 
 The other choice is letting dkms do the installation (via the doinst.sh) and the uninstallation 
-(via the douninst.sh) of the kernel modules. It seems more in line with how dkms is designed to 
-let dkms control all of its actions, which would prevent the above scenario. The default setting of 
-this Slackbuild is to call dkms outwith the steps done by pkgtools. 
+(via the douninst.sh) of the kernel modules. This seems more in line with how dkms is designed, while
+digimend driver-installation is designed to be done via dkms. Thus, it makes sense to let dkms control 
+all of its actions. The default setting of this Slackbuild is for these reasons to call dkms outwith 
+the steps done by pkgtools.
 
-It is very easy to switch between build modes, by editing the SlackBuild. SO one can test first 
+It is very easy to switch between build modes by editing the SlackBuild. So one can test first 
 and then decide on how to use it. For that, do check the Slackbuild, doinst.sh and douninst.sh. 
 
-This script is still experimental. Please if you have suggestions to improve it please let me know.
+This script is still experimental. Please if you have suggestions to improve it, let me know.
 (sborg@disroot.org)
 
 see also:
