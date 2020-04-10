@@ -1,7 +1,7 @@
 This is a collection of graphics tablet drivers for the Linux kernel, produced and 
-maintained by the DIGImend project. We maintain this package to provide newer 
+maintained by the DIGImend project. "We maintain this package to provide newer 
 drivers for older kernel versions which don't have them, and to allow users to test 
-new drivers before we contribute them to the mainline kernel.
+new drivers before we contribute them to the mainline kernel."
 
 See the list of supported_tablets on the project website, https://digimend.github.io
 download from https://github.com/DIGImend/digimend-kernel-drivers
