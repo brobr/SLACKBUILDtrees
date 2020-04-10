@@ -1,42 +1,46 @@
-This is a collection of graphics tablet drivers for the Linux kernel, produced
-and maintained by the DIGImend project. We maintain this package to provide
-newer drivers for older kernel versions which don't have them, and to allow
-users to test new drivers before we contribute them to the mainline kernel.
+This is a collection of graphics tablet drivers for the Linux kernel, produced and 
+maintained by the DIGImend project. We maintain this package to provide newer 
+drivers for older kernel versions which don't have them, and to allow users to test 
+new drivers before we contribute them to the mainline kernel.
+
+See the list of supported_tablets on the project website, https://digimend.github.io
+download from https://github.com/DIGImend/digimend-kernel-drivers
 
 On SLackbuilds.org a digimend-kernel-drivers package is available that requires
 rebuilding (and installation of the drivers) after each kernel-upgrade.
 
-This package uses dkms (see e.g. https://slackbuilds.org/repository/14.2/development/dkms/)
-for installation. 
-
-Dkms installs/uninstalls registered kernel drivers automatically after upgrading the kernel
-(handy when on current) (see digimend/README)
+This package uses dkms (see e.g. https://slackbuilds.org/repository/$RELEASE/development/dkms/)
+for installation. Dkms installs/uninstalls registered kernel drivers automatically after 
+upgrading the kernel (see digimend/README)
 
 
+This script makes it possible to assemble a package with the dkms-built modules included. 
+The way dkms operates can thus be checked in advance, before installing the drivers. 
 
-In case of removing/upgrading the package, best to run (as root):
+As dkms automatically follows kernel-upgrades, the task of keeping kernel-modules up to date 
+is taken out of hand of the administator. This can be handy (like when on current the kernel
+is very frequently upgraded, or when has wants to test a kernel module) and this can have 
+unexpected effects. For example, these upgrades are not tracked in the package description 
+used by pkgtools, which might lead to kernel-modules not being removed from the running kernel 
+when the driver-package is uninstalled. In order to prevent this, one should not forget to run 
+BEFORE removepkg the command 'dkms remove digimend/$VERSION --all'. This removes DKMS-controlled 
+digimend-$VERSION driver modules from all kernels. A particular kernel version can also be 
+specified instead of '--all' (see man dkms).
 
-'dkms remove digimend/9' 
+The other choice is letting dkms do the installation (via the doinst.sh) and the uninstallation 
+(via the douninst.sh) of the kernel modules. It seems more in line with how dkms is designed to 
+let dkms control all of its actions, which would prevent the above scenario. The default setting of 
+this Slackbuild is to call dkms outwith the steps done by pkgtools. 
 
-(or when the driver has to be removed from other
-kernels than the running one): 
+It is very easy to switch between build modes, by editing the SlackBuild. SO one can test first 
+and then decide on how to use it. For that, do check the Slackbuild, doinst.sh and douninst.sh. 
 
-'dkms remove --all digimend/9'
-
-before running 'removepkg'. (see man dkms)
-
-When the dkms-remove step is omitted, and the driver-package is removed with
-'removepkg', the dounist.sh aims to remove the bits installed by dkms. 
-
-This script is still highly experimental.
-Please if you have suggestions to improve it please let me know.
-
-See the list of supported_tablets on the project website,
-https://digimend.github.io
-
-download from
-https://github.com/DIGImend/digimend-kernel-drivers
+This script is still experimental. Please if you have suggestions to improve it please let me know.
+(sborg@disroot.org)
 
 see also:
 https://slackblogs.blogspot.com/2020/04/configuring-huion-h430p-on-slackware.html
 https://www.linuxquestions.org/questions/slackware-14/please-recommend-a-handwriting-pad-4175635693/
+
+and for a discussion on using a douninst.sh
+https://www.linuxquestions.org/questions/slackware-14/how-can-removepkg-be-triggered-to-remove-stuff-placed-by-a-doinst-sh-4175672073

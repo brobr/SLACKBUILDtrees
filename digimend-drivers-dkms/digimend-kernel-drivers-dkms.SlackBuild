@@ -29,6 +29,7 @@ VERSION=${VERSION:-9}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 
+
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
     i?86) ARCH=i586 ;;
@@ -42,6 +43,32 @@ CWD=$(pwd)
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
+## If you want that the kernel modules built by DKMS (as of version 2.8.1)
+## are added to the package before installing this, use INPKG='yes'
+## This will enable you to see what modules DKMS is going to make and
+## where these are placed before installation. Removepkg will uninstall all 
+## files without using an 'invasive' douninst.sh. However, ONLY kernel modules 
+## installed WITH the package are removed. Modules automatically installed by  
+## DKMS later, during a kernelk upgrade, will be missed. So when you remove 
+## this package under a newer kernel and remove these drives from its modules; 
+## you need to run as root - BEFORE removepkg -: 
+## 'dkms remove digimend/$VERSION --all'
+## If you remove the package from the same kernel as when installing it, you
+## want to run depmod after package removal.
+## 
+#INPKG='yes'
+##
+## Use INPKG='no' if you accept that DKMS installs AND uninstalls the drivers  
+## after Slackware's pkgtools has done its job. The doinst.sh runs dkms 
+## commands for installation; the douninst.sh let DMKS clean out its files
+## using a conf file 'parked' in /etc/dkms with: 
+## 'dkms remove digimend/$VERSION --all -c /etc/dkms/digimend.conf'
+## This command (without the -c option) can also be used before
+## removepkg or upgradepkg. If all fails, dounist.sh tries to remove
+## dkms installed files and links. Digimend advices driver-install via DKMS,
+## which traces its own doings. With frequent kernel-upgrades in current
+## this seems as the option taking fully advantage of DKMS:
+INPKG='no'
 
 set -e
 
@@ -66,12 +93,15 @@ else
   echo "only slackware current supported"
   exit 1
 fi
+
+
+# copying the debian dkms package structure:
 # Install source files
 mkdir -p $PKG/usr/src/$MODNAM-$VERSION/
 cp -a \
  Makefile ./*.c  ./*.h dkms.conf depmod.conf\
  $PKG/usr/src/$MODNAM-$VERSION/
- 
+
 mkdir -p $PKG/usr/src/$MODNAM-$VERSION/usbhid 
 cp -a \
  usbhid/*.h \
@@ -83,9 +113,37 @@ cp hid-rebind $PKG/lib/udev/
 cp udev.rules $PKG/lib/udev/rules.d/90-digimend.rules
  
 mkdir -p $PKG/usr/share/X11/xorg.conf.d/
-cp $CWD/50-huion.conf $PKG/usr/share/X11/xorg.conf.d/
 cp xorg.conf $PKG/usr/share/X11/xorg.conf.d/50-digimend.conf
+# Conf for huion, thanks to willysr
+# https://slackblogs.blogspot.com/2020/04/configuring-huion-h430p-on-slackware.html
+cp $CWD/50-huion.conf $PKG/usr/share/X11/xorg.conf.d/
 
+if [ $INPKG = 'yes' ]; then
+
+    # let dkm install into the $PKG, thanks to bassmadrigal
+    # https://www.linuxquestions.org/questions/slackware-14/how-can-removepkg-be-triggered-to-remove-stuff-placed-by-a-doinst-sh-4175672073/page3.html#post6108943
+    # Set up the source for dkms building
+    mkdir -p $PKG/var/lib/dkms/${MODNAM}/${VERSION}
+    cd $PKG
+    ln -sf  var/lib/dkms/${MODNAM}/${VERSION}/source  usr/src/${MODNAM}-${VERSION}
+    cd $TMP/$SRCNAM-$VERSION
+
+    # Check if dkms is installed
+    if [ ! -x /usr/sbin/dkms ]; then
+      echo "Please install dkms from SBo"
+      exit 1
+    else
+    # Let's build it
+    mkdir -p $PKG/lib/modules/`uname -r`/extra
+    dkms install \
+      -m ${MODNAM} \
+      -v ${VERSION} \
+      --sourcetree $PKG/usr/src \
+      --dkmstree $PKG/var/lib/dkms \
+      --installtree $PKG/lib/modules
+    fi
+fi
+# store documentation
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
   COPYING README.md \
@@ -94,8 +152,16 @@ cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
-cat $CWD/doinst.sh > $PKG/install/doinst.sh
-cat $CWD/douninst.sh > $PKG/install/douninst.sh
+
+if [ $INPKG = 'yes' ]; then
+    cat $CWD/doinst.sh_depmod > $PKG/install/doinst.sh
+elif  [ $INPKG = 'no' ]; then
+    cat $CWD/doinst.sh_dkms > $PKG/install/doinst.sh
+    cat $CWD/douninst.sh_dkms > $PKG/install/douninst.sh
+else
+    echo "no valid build option, doinst.sh or douninst.sh found"
+    exit 1
+fi
 
 cd $PKG
 /sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}

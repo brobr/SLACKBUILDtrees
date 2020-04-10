@@ -10,7 +10,7 @@ digimend-kernel-drivers-dkms: digimend-kernel-drivers-dkms
 digimend-kernel-drivers-dkms:
 digimend-kernel-drivers-dkms: Collection of graphics tablet drivers for the Linux kernel
 digimend-kernel-drivers-dkms: for example produced by Huion. This uses dkms for automatically
-digimend-kernel-drivers-dkms: installing these drivers after upgrading a kernel
+digimend-kernel-drivers-dkms: installing these drivers after upgrading a kernel.
 digimend-kernel-drivers-dkms: 
 digimend-kernel-drivers-dkms: home: https://digimend.github.io
 digimend-kernel-drivers-dkms:
