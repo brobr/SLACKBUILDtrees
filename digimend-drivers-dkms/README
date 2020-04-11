@@ -13,7 +13,6 @@ This package uses dkms (see e.g. https://slackbuilds.org/repository/14.2/develop
 installation. Dkms installs/uninstalls registered kernel drivers automatically after upgrading 
 the kernel via the command 'dkms autoinstall' (see 'man dkms' and digimend/README)
 
-
 This script makes it possible to assemble a package with the dkms-built modules included. The 
 way dkms operates can thus be checked in advance, before installing the drivers. 
 
