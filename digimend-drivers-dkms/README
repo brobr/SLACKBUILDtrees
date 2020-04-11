@@ -11,7 +11,7 @@ On SLackbuilds.org a digimend-kernel-drivers package is available that requires 
 
 This package uses dkms (see e.g. https://slackbuilds.org/repository/14.2/development/dkms/) for 
 installation. Dkms installs/uninstalls registered kernel drivers automatically after upgrading 
-the kernel (see digimend/README)
+the kernel via the command 'dkms autoinstall' (see 'man dkms' and digimend/README)
 
 
 This script makes it possible to assemble a package with the dkms-built modules included. The 
