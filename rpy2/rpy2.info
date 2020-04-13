@@ -1,6 +1,6 @@
 PRGNAM="rpy2"
 VERSION="3.2.7"
-HOMEPAGE="https://pypi.org/project/rpy2/"
+HOMEPAGE="https://rpy2.github.io/"
 DOWNLOAD="https://pypi.python.org/packages/source/r/rpy2/rpy2-3.2.7.tar.gz""
 MD5SUM="eaa65c233eb2d60678dabe2b58894aa4"
 DOWNLOAD_x86_64=""

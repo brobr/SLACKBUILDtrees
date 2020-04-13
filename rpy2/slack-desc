@@ -8,12 +8,12 @@
     |-----handy-ruler------------------------------------------------------|
 rpy2: rpy2 (R in Python)
 rpy2:
-rpy2: Python interface to the R language.
-rpy2: rpy2 is running an embedded R, providing access to it from Python 
-rpy2: using R's own C-API 
-rpy2: 
+rpy2: rpy2 is an interface to R running embedded in a Python process.
+rpy2: The project is mature, stable, documented, and widely used
 rpy2: 
 rpy2: It is also providing features for when working 
 rpy2: with jupyter notebooks or ipython.
 rpy2:
+rpy2: home:https://rpy2.github.io/
+rpy2: https://rpy2.github.io/doc/latest/html/index.html
 rpy2:
