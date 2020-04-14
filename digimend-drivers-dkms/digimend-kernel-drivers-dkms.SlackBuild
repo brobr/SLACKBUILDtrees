@@ -47,27 +47,28 @@ OUTPUT=${OUTPUT:-/tmp}
 ## are added to the package before installing this, use INPKG='yes'
 ## This will enable you to see what modules DKMS is going to make and
 ## where these are placed before installation. Removepkg will uninstall all 
-## files without using an 'invasive' douninst.sh. However, ONLY kernel modules 
-## installed WITH the package are removed. Modules automatically installed by  
-## DKMS later, during a kernelk upgrade, will be missed. So when you remove 
-## this package under a newer kernel and remove these drives from its modules; 
-## you need to run as root - BEFORE removepkg -: 
-## 'dkms remove digimend/$VERSION --all'
-## If you remove the package from the same kernel as when installing it, you
-## want to run depmod after package removal.
+## files. However, ONLY kernel modules installed WITH the package are removed.
+## Modules automatically installed by `dkms autoinstall' after a kernel
+## upgrade, will be missed. So when you remove this package under a newer 
+## kernel and need to remove digimend drivers from its modules you can either: 
+## run as root - BEFORE removepkg -: 'dkms remove digimend/$VERSION --all', 
+## or use the douninst.sh (see below).
+## If you remove the package 'manually' from the running kernel, you want
+## to run depmod after package removal. 
 ## 
 #INPKG='yes'
 ##
-## Use INPKG='no' if you accept that DKMS installs AND uninstalls the drivers  
-## after Slackware's pkgtools has done its job. The doinst.sh runs dkms 
-## commands for installation; the douninst.sh let DMKS clean out its files
-## using a conf file 'parked' in /etc/dkms with: 
+## Use INPKG='no' to let DKMS install and uninstall the drivers AFTER 
+## Slackware's pkgtools has done its job. The doinst.sh runs dkms 
+## commands for installation; the douninst.sh let dkms clean out its files
+## using a .conf file 'parked' in /etc/dkms with: 
 ## 'dkms remove digimend/$VERSION --all -c /etc/dkms/digimend.conf'
-## This command (without the -c option) can also be used before
-## removepkg or upgradepkg. If all fails, dounist.sh tries to remove
-## dkms installed files and links. Digimend advices driver-install via DKMS,
-## which traces its own doings. With frequent kernel-upgrades in current
-## this seems as the option taking fully advantage of DKMS:
+## The dounist.sh removes dkms installed files and links, clears out the 
+## /etc/dkms.digimend.conf file and runs depmod. This approach relies less
+## on transferring dkms-steps and linking to package building and therefore
+## is less prone to changes in dkms when this gets upgraded. A dkms install 
+## does not replace modules already present in the kernel-tree (instead the 
+## new modules go into 'extra') and is recommended by the digimend developers.
 INPKG='no'
 
 set -e
@@ -85,6 +86,11 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
+# Check if dkms is installed
+if [ ! -x /usr/sbin/dkms ]; then
+ echo "please install dkms from sbo"
+ exit 1
+fi
 #https://github.com/DIGImend/digimend-kernel-drivers/pull/331/files
 if [[ $(uname -r) > "5.3" ]] ; then
   patch -p 1 < $CWD/fix-build-kernel-current.patch
@@ -99,14 +105,13 @@ fi
 # Install source files
 mkdir -p $PKG/usr/src/$MODNAM-$VERSION/
 cp -a \
- Makefile ./*.c  ./*.h dkms.conf depmod.conf\
- $PKG/usr/src/$MODNAM-$VERSION/
+  Makefile ./*.c  ./*.h dkms.conf depmod.conf\
+  $PKG/usr/src/$MODNAM-$VERSION/
 
 mkdir -p $PKG/usr/src/$MODNAM-$VERSION/usbhid 
 cp -a \
- usbhid/*.h \
- $PKG/usr/src/$MODNAM-$VERSION/usbhid/
- 
+  usbhid/*.h \
+  $PKG/usr/src/$MODNAM-$VERSION/usbhid/
  
 mkdir -p $PKG/lib/udev/rules.d/
 cp hid-rebind $PKG/lib/udev/
@@ -114,34 +119,29 @@ cp udev.rules $PKG/lib/udev/rules.d/90-digimend.rules
  
 mkdir -p $PKG/usr/share/X11/xorg.conf.d/
 cp xorg.conf $PKG/usr/share/X11/xorg.conf.d/50-digimend.conf
-# Conf for huion, thanks to willysr
+# Example conf for huion, thanks to willysr
 # https://slackblogs.blogspot.com/2020/04/configuring-huion-h430p-on-slackware.html
 cp $CWD/50-huion.conf $PKG/usr/share/X11/xorg.conf.d/
 
+# Use dkms install during generation of the $PKG, thanks to bassmadrigal
+# https://www.linuxquestions.org/questions/slackware-14/how-can-removepkg-be-triggered-to-remove-stuff-placed-by-a-doinst-sh-4175672073/page3.html#post6108943
 if [ $INPKG = 'yes' ]; then
+ # Set up the source for dkms building
+  mkdir -p $PKG/var/lib/dkms/${MODNAM}/${VERSION}
+  # link between source and dkms build tree
+  cd $PKG
+  #dkms add ${MODNAM}/${VERSION} usr/src/${MODNAM}-${VERSION} #does not work
+  ln -s  var/lib/dkms/${MODNAM}/${VERSION}/source  usr/src/${MODNAM}-${VERSION}
+  cd $TMP/$SRCNAM-$VERSION
 
-    # let dkm install into the $PKG, thanks to bassmadrigal
-    # https://www.linuxquestions.org/questions/slackware-14/how-can-removepkg-be-triggered-to-remove-stuff-placed-by-a-doinst-sh-4175672073/page3.html#post6108943
-    # Set up the source for dkms building
-    mkdir -p $PKG/var/lib/dkms/${MODNAM}/${VERSION}
-    cd $PKG
-    ln -sf  var/lib/dkms/${MODNAM}/${VERSION}/source  usr/src/${MODNAM}-${VERSION}
-    cd $TMP/$SRCNAM-$VERSION
-
-    # Check if dkms is installed
-    if [ ! -x /usr/sbin/dkms ]; then
-      echo "Please install dkms from SBo"
-      exit 1
-    else
-    # Let's build it
-    mkdir -p $PKG/lib/modules/`uname -r`/extra
-    dkms install \
-      -m ${MODNAM} \
-      -v ${VERSION} \
-      --sourcetree $PKG/usr/src \
-      --dkmstree $PKG/var/lib/dkms \
-      --installtree $PKG/lib/modules
-    fi
+  # Let's build it
+  mkdir -p $PKG/lib/modules/`uname -r`/extra
+  dkms install \
+   -m ${MODNAM} \
+   -v ${VERSION} \
+   --sourcetree $PKG/usr/src \
+   --dkmstree $PKG/var/lib/dkms \
+   --installtree $PKG/lib/modules
 fi
 # store documentation
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
@@ -154,14 +154,16 @@ mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 
 if [ $INPKG = 'yes' ]; then
-    cat $CWD/doinst.sh_depmod > $PKG/install/doinst.sh
+  # we only need to run depmod
+  cat $CWD/doinst.sh_depmod > $PKG/install/doinst.sh
 elif  [ $INPKG = 'no' ]; then
-    cat $CWD/doinst.sh_dkms > $PKG/install/doinst.sh
-    cat $CWD/douninst.sh_dkms > $PKG/install/douninst.sh
+  # we need to run dkms
+  cat $CWD/doinst.sh_dkms > $PKG/install/doinst.sh
 else
-    echo "no valid build option, doinst.sh or douninst.sh found"
-    exit 1
+  echo "no valid build option, doinst.sh or douninst.sh found"
+  exit 1
 fi
-
+cat $CWD/douninst.sh_dkms > $PKG/install/douninst.sh
+#do not add extra symlinks ('-l n') to doinst.sh; 2 of the ones created are dead
 cd $PKG
-/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
+/sbin/makepkg -l n -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
