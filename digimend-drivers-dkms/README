@@ -5,6 +5,7 @@ them to the mainline kernel."
 
 See the list of supported_tablets on the project website, https://digimend.github.io
 Download from https://github.com/DIGImend/digimend-kernel-drivers
+Older drawing pads, such as the HUION KentingK58 will already be supported by kernel modules.
 
 On SLackbuilds.org a digimend-kernel-drivers package is available that requires rebuilding 
 (and installation of the drivers) after each kernel-upgrade.

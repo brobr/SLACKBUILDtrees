@@ -129,10 +129,9 @@ if [ $INPKG = 'yes' ]; then
  # Set up the source for dkms building
   mkdir -p $PKG/var/lib/dkms/${MODNAM}/${VERSION}
   # link between source and dkms build tree
-  cd $PKG
   #dkms add ${MODNAM}/${VERSION} usr/src/${MODNAM}-${VERSION} #does not work
-  ln -s  var/lib/dkms/${MODNAM}/${VERSION}/source  usr/src/${MODNAM}-${VERSION}
-  cd $TMP/$SRCNAM-$VERSION
+  #https://www.linuxquestions.org/questions/slackware-14/doinst-sh-syntax-help-please-522655/
+  ( cd $PKG/usr/src/${MODNAM}-${VERSION} ; ln -sf /var/lib/dkms/${MODNAM}/$VERSION/source source )
 
   # Let's build it
   mkdir -p $PKG/lib/modules/`uname -r`/extra
