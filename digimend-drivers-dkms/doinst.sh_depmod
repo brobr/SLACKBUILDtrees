@@ -1,0 +1,41 @@
+VER=9
+KERNEL=$(uname -r)
+
+config() {
+  NEW="$1"
+  OLD="$(dirname $NEW)/$(basename $NEW .new)"
+  # If there's no config file by that name, mv it over:
+  if [ ! -r $OLD ]; then
+    mv $NEW $OLD
+  elif [ "$(cat $OLD | md5sum)" = "$(cat $NEW | md5sum)" ]; then
+    # toss the redundant copy
+    rm $NEW
+  fi
+  # Otherwise, we leave the .new copy for the admin to consider...
+}
+
+config usr/share/X11/xorg.conf.d/50-digimend.conf.new
+config usr/share/X11/xorg.conf.d/50-huion.conf.new
+
+# done by dkms during package building
+echo "depmod .."
+depmod --config usr/src/digimend-$VERSION/depmod.conf
+
+modprobe -r hid-kye hid-uclogic hid-polostar hid-viewsonic
+
+# copy a backup of the dkms.conf for module removal in the future
+# do not remove, will be needed by dkms!
+cp usr/src/digimend-9/dkms.conf etc/dkms/digimend.conf
+echo "--------------------"
+echo ""
+echo "A backup of 'dkms.conf' has been made as '/etc/dkms/digimend.conf'."
+echo "This file will be used by dkms to remove the kernel modules and "
+echo "other driver files when removepkg is run with the douninst.sh."
+echo ""
+
+( cd usr/src/digimend-$VER ; rm -rf source )
+( cd usr/src/digimend-$VER ; ln -sf /var/lib/dkms/digimend/$VER/source source )
+( cd var/lib/dkms/digimend/$VER ; rm -rf source )
+( cd var/lib/dkms/digimend/$VER ; ln -sf /usr/src/digimend-$VER source )
+( cd var/lib/dkms/digimend ; rm -rf kernel-5.4.31-x86_64 )
+( cd var/lib/dkms/digimend ; ln -sf $VER/$KERNEL/x86_64 kernel-${KERNEL}-x86_64 )

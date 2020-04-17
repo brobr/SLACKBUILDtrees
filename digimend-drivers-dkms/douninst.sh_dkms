@@ -1,0 +1,97 @@
+#try first to remove dkms-installed modules etc by dkms, using the
+# /etc/dkms/digimend.conf
+CONF=/etc/dkms/digimend.conf 
+DIGI=/var/lib/dkms/digimend
+KERNEL=$(uname -r)
+VER=9
+
+
+if [[ -e "$CONF" && -d "$DIGI" ]]; then
+    echo "--------------------"
+    echo "removing digimend drivers and build tree with dkms"
+    dkms remove digimend/$VER --all -c $CONF
+    rm $CONF
+    echo "--------------------"
+    if [[ ! -e "$CONF" && ! -d "$DIGI" ]]; then
+        echo "Done, indeed; but in case you got worried:"
+        echo "You can ignore warnings as:"
+        echo "  'Error! Could not locate dkms.conf file.'"
+        echo "  'File: /var/lib/dkms/digimend/$VER/source/dkms.conf does not exist.'"
+        echo "These files were junked beforehand by removepkg."
+        echo "Instead, a copy of dkms.conf ($CONF)"
+        echo "was used and has now been removed."
+        echo ".."
+    else
+        echo "Sorry, will try douninst.sh commands"
+        echo ".."
+    fi
+elif [[ ! -e "$CONF" && -d "$DIGI" ]]; then
+    echo "No $CONF found."
+    echo "Cannot use dkms to uninstall digimend drivers and build tree;"
+    echo "will try douninst.sh commands"
+    echo ".."
+else
+    echo "Software installed by dkms seems gone;"
+    echo "will check.."
+    echo ".."
+fi
+
+#in case dkms remove --all digimend/$VER did not work as config could have been deleted..
+echo "checking /lib/modules/$KERNEL/extra..."
+if [[ -d /lib/modules/$KERNEL/extra ]]; then
+    echo "looking to remove digimend modules from /lib/modules/$KERNEL/extra..."
+    if [[ -e /lib/modules/$KERNEL/extra/hid-kye.ko ]]; then
+      echo " removing hid-kye.ko"
+      rm /lib/modules/$KERNEL/extra/hid-kye.ko
+    fi
+    if [[ -e /lib/modules/$KERNEL/extra/hid-polostar.ko ]]; then
+      echo " removing hid-polostar.ko"
+      rm /lib/modules/$KERNEL/extra/hid-polostar.ko
+    fi
+    if [[ -e /lib/modules/$KERNEL/extra/hid-uclogic.ko ]]; then
+      echo " removing hid-uclogic.ko"
+      rm /lib/modules/$KERNEL/extra/hid-uclogic.ko
+    fi
+    if [[ -e /lib/modules/$KERNEL/extra/hid-viewsonic.ko ]]; then
+      echo " removing hid-viewsonic.ko"
+      rm /lib/modules/$KERNEL/extra/hid-viewsonic.ko
+    fi
+    echo " removing /lib/modules/$KERNEL/extra.."
+    rmdir /lib/modules/$KERNEL/extra
+    depmod -a
+elif [[ ! -d /lib/modules/$KERNEL/extra ]]; then
+    echo "no kernel modules to remove"
+    echo ".."
+else 
+    echo "Something did not go well"
+    echo "Please reinstall pkg; then run:"
+    echo "'dkms remove digimend/$VER --all ' "
+    echo " and then removepkg again"
+    echo "see README"
+fi
+
+echo "checking $DIGI..."
+if [[ -d "$DIGI" ]]; then
+      echo "removing $DIGI..."
+      rm -rf $DIGI/$VER
+      DANGLY=$(find $DIGI -xtype l)
+      if [[ -L $DANGLY ]] ; then
+        echo " removing dead symlink"
+        rm -f $DANGLY
+      fi
+      echo " removing empty $DIGI"
+      rmdir $DIGI
+else
+      echo "no $DIGI"
+      echo ".."
+fi
+
+# in case dkms has not been used for install/removal
+echo "checking $CONF..."
+if [[ -e "$CONF" ]]; then
+    echo "removing parked '$CONF'"
+    rm $CONF  
+    echo ".."
+fi    
+
+echo "Kernel ${KERNEL} modules and files installed by/for dkms have been removed."
