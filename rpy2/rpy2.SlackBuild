@@ -81,7 +81,7 @@ RHOMLIB=$(R RHOME)/lib
 echo "R libs are in $RHOMLIB"
 
 if ! [ "$(readelf -h $RHOMLIB/libR*.so | grep DYN)" ]; then
-  echo 'Error: R is not compiled with shared libraries.' >&2  
+  echo "Error: R is not compiled with shared libraries." >&2
   exit 1
 fi
 
@@ -97,7 +97,7 @@ cp -a AUTHORS gpl-2.0.txt NEWS README* $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 ## to facilitate dynamic linking with R,
-## libR.so and libRblas.so need to be found
+## libR.so and libRblas.so still need to be found
 ## https://github.com/rpy2/rpy2/issues/675
 mkdir -p $PKG/etc/ld.so.conf.d/
 cat $CWD/Rlibs.conf > $PKG/etc/ld.so.conf.d/Rlibs.conf
