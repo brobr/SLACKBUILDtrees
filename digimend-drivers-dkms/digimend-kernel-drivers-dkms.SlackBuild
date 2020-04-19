@@ -27,7 +27,7 @@ SRCNAM=digimend-kernel-drivers
 MODNAM=digimend
 VERSION=${VERSION:-9}
 BUILD=${BUILD:-1}
-TAG=${TAG:-_SBo}
+TAG=${TAG:-_sborg63}
 
 
 if [ -z "$ARCH" ]; then
