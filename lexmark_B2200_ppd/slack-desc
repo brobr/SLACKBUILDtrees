@@ -1,0 +1,20 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+                               |-----handy-ruler------------------------------------------------------|
+lexmark_B2200_ppd: lexmark_B2200_ppd files
+lexmark_B2200_ppd:
+lexmark_B2200_ppd: lexmark_B2200_ppd files copied from tar.Z installers
+lexmark_B2200_ppd:
+lexmark_B2200_ppd: PPD files for Lexmark B2200 series (used on B2236)
+lexmark_B2200_ppd:
+lexmark_B2200_ppd: Note: default print quality is 1200 dpi; 
+lexmark_B2200_ppd: This can be set at 600 dpi, might save toner.
+lexmark_B2200_ppd:
+lexmark_B2200_ppd:
+lexmark_B2200_ppd:
+
