@@ -1,10 +1,11 @@
 on SlackBuilds.org:
 asttokens
 mccabe
-pyflakes
+# pyflakes ; more updatred version available here
 pylint
 isort
 astroid
 
+### use available python3-version or
 ### make sure to set SlackBuild to
 python3 setup.py install 
