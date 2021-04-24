@@ -28,7 +28,7 @@
 
 PRGNAM=openboard
 SRCNAM=OpenBoard
-VERSION=${VERSION:-1.6.1a_1102}
+VERSION=${VERSION:-1.6.1}
 SRCVER=$(echo $VERSION | tr _ -)
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
