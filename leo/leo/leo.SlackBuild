@@ -1,9 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
 # Slackware build script for leo
 
-# Copyright 2014-2019  Dimitris Zlatanidis  Orestiada, Greece
-# 2020 Rob van Nues
+# Copyright 
+# 2020-2021  Rob van Nues
+# 2014-2019  Dimitris Zlatanidis  Orestiada, Greece
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -23,6 +24,8 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PRGNAM=leo
 #when using pypi source: no LICENSE:
 SRCNAM=${PRGNAM}
@@ -31,8 +34,7 @@ SRCNAM=${PRGNAM}
 VERSION=${VERSION:-6.2.1}
 BUILD=${BUILD:-4}
 TAG=${TAG:-_sborg63}
-PYTH=python3
-PYTHVER=8
+PKGTYPE=${PKGTYPE:-tgz}
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
@@ -42,7 +44,6 @@ if [ -z "$ARCH" ]; then
   esac
 fi
 
-CWD=$(pwd)
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
@@ -84,7 +85,7 @@ find -L . \
 # for leo < 6: Replace "time.clock" into "time.process_time". #1313
 # https://github.com/leo-editor/leo-editor/pull/1313/commits/03ab0642a2d5f64b09ff2d9dbdb90c4308a4ce2b
 # patch -p 1 < $CWD/timeprocess_time.patch
-$PYTH setup.py install --root=$PKG
+python3 setup.py install --root=$PKG
 
 mkdir -p $PKG/usr/share/{applications,pixmaps,mime}
 install -D -m644 $CWD/$PRGNAM.desktop $PKG/usr/share/applications/$PRGNAM.desktop
@@ -105,4 +106,4 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG
-/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Slackware build script for digimend-kernel-drivers via dkms
 
@@ -22,13 +22,15 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PRGNAM=digimend-kernel-drivers-dkms
 SRCNAM=digimend-kernel-drivers
 MODNAM=digimend
 VERSION=${VERSION:-9}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_sborg63}
-
+PKGTYPE=${PKGTYPE:-tgz}
 
 if [ -z "$ARCH" ]; then
   case "$( uname -m )" in
@@ -39,7 +41,6 @@ if [ -z "$ARCH" ]; then
   esac
 fi
 
-CWD=$(pwd)
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
@@ -165,4 +166,4 @@ fi
 cat $CWD/douninst.sh_dkms > $PKG/install/douninst.sh
 #do not add extra symlinks ('-l n') to doinst.sh; 2 of the ones created are dead
 cd $PKG
-/sbin/makepkg -l n -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
+/sbin/makepkg -l n -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE
