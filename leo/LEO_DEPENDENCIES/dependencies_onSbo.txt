@@ -1,11 +1,17 @@
 on SlackBuilds.org:
 asttokens
-mccabe
-# pyflakes ; more updatred version available here
-pylint
-isort
+python3-mccabe
+pyflakes (2.4.0)
+click (8.0.3)
+python3-semantic-version (2.8.5)
+python3-pylint (2.11.1)
+python3-isort (5.10.0)
 astroid
+mypy_extensions
+typing_extensions (3.10.0.2)
 
 ### use available python3-version or
 ### make sure to set SlackBuild to
-python3 setup.py install 
+python3 setup.py install
+
+### versions might need to be updated to (no.no.no)
