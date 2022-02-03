@@ -1,17 +1,19 @@
-The slackware build scripts in this repository have been created for personal use
-and have not been deposited at Slackbuilds.org because:
-1) Some scripts are an adaptation of existing scripts on Slackbuilfs.org (like leo,
-   digimend-drivers-dkms)
-2) Some scripts are only able to run on current and not on 14.2 (like pikepdf
-   and leo) due to a discrepancy in standard libraries (qpdf, PyQT5). 
-   Submission of pdfarranger depends on release of Slackware-15, and will then
-   replace pdfshuffler.
+The slackware build scripts in this repository have been created for 
+personal use and have not been deposited at Slackbuilds.org because:
+1) Some scripts are an adaptation of existing scripts on Slackbuilfs.org
+   (like leo, digimend-drivers-dkms)
+2) Some scripts are only able to run on current and not on 14.2 (like 
+   pikepdf and leo) due to a discrepancy in standard libraries (qpdf, 
+   PyQT5). 
+   Submission of pdfarranger depends on release of Slackware-15, and 
+   will eventually replace python2-based pdfshuffler.
 
 All depencies not provided here are available at SlackBuilds.org
 
 
 NOTE the scripts presented here are maintained to build software that runs
-on my laptop with Slackware64-current. If you want to use a script on your machine 
-which has different architecture or version, use it at your own risk.
+on my laptop with Slackware64-current. If you want to use a script on your 
+machine which has different architecture or version, use it at your own 
+risk.
 
 Any constructive feedback will be welcome.
