@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct. It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+      |-----handy-ruler------------------------------------------------------|
+tnef: tnef (ms-tnef handler)
+tnef:
+tnef: TNEF is a program for unpacking MIME attachments of type 
+tnef: "application/ms-tnef". This is a Microsoft only attachment. Due to the 
+tnef: proliferation of Microsoft Outlook and Exchange mail servers, more and 
+tnef: more mail is encapsulated into this format.
+tnef: The TNEF program allows one to unpack the attachments which were 
+tnef: encapsulated into the TNEF attachment. Thus alleviating the need to use 
+tnef: Microsoft Outlook to view the attachment. Caveat: TNEF does not handle 
+tnef: well attachments with non-Unicode filenames or data.
+tnef:
