@@ -17,7 +17,7 @@
 -INCLUDEPATH += $$THIRD_PARTY_PATH/quazip/
 -include($$THIRD_PARTY_PATH/quazip/quazip.pri)
 -
-+INCLUDEPATH += /usr/include/QuaZip-Qt5-1.1/quazip
++INCLUDEPATH += /usr/include/QuaZip-Qt5-1.2/quazip
  
  SOURCES += \
      src/UBCFFAdaptor.cpp
@@ -37,7 +37,7 @@
 -    LIBS += -lquazip5
 -    INCLUDEPATH += "/usr/include/quazip"
 +    LIBS += -lquazip1-qt5
-+    INCLUDEPATH += "/usr/include/QuaZip-Qt5-1.1/quazip"
++    INCLUDEPATH += "/usr/include/QuaZip-Qt5-1.2/quazip"
  
      LIBS += -lpoppler
      INCLUDEPATH += "/usr/include/poppler"
