@@ -9,10 +9,10 @@
 pdfarranger: pdfarranger (rearrange pdf pages)
 pdfarranger:
 pdfarranger: pdfarranger is a small python-gtk application, which helps the user to
-pdfarranger: merge or split pdf documents and rotate, crop and rearrange their 
-pdfarranger: pages using an interactive and intuitive graphical interface. It is a 
+pdfarranger: merge or split pdf documents and rotate, crop and rearrange their
+pdfarranger: pages using an interactive and intuitive graphical interface. It is a
 pdfarranger: frontend for pikepdf and a fork of pdfshuffler.
 pdfarranger:
-pdfarranger: Home: https://github.com/jeromerobert/pdfarranger
+pdfarranger: Home: https://github.com/pdfarranger/pdfarranger
 pdfarranger:
 pdfarranger:

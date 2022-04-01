@@ -1,10 +1,7 @@
 pdfarranger is a small python-gtk application, which helps the user
-to merge or split pdf documents and rotate, crop and rearrange their 
+to merge or split pdf documents and rotate, crop and rearrange their
 pages using an interactive and intuitive graphical interface. It is
-a frontend for pikepdf and  a fork of Konstantinos Poulios's 
-pdfshuffler
+a frontend for pikepdf and a fork of Konstantinos Poulios's
+pdfshuffler.
 
-
-
-
-https://github.com/jeromerobert/pdfarranger
+Home: https://github.com/pdfarranger/pdfarranger

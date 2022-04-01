@@ -87,7 +87,7 @@ $PKG/usr/share/applications/pdfarranger.desktop
 mv $PKG/usr/share/metainfo/com.github.jeromerobert.pdfarranger.metainfo.xml \
 $PKG/usr/share/metainfo/pdfarranger.metainfo.xml
 
-find $PKG/usr/share/icons/hicolor/ -iname 'com.github.jeromerobert.pdfarranger.png' -exec rename com.github.jeromerobert.pdfarranger.png pdfarranger.png '{}' ';'
+find $PKG/usr/share/icons/hicolor/ -iname 'com.github.jeromerobert.pdfarranger*' -exec rename com.github.jeromerobert.pdfarranger pdfarranger '{}' ';'
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cp -a \
